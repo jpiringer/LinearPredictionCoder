@@ -73,6 +73,11 @@
 			isa = PBXBuildFile;
 			fileRef = DC46DC086F8816C025D615C2;
 		};
+		5485475245FE4288B81DA3C8 = {
+			isa = PBXBuildFile;
+			fileRef = 57CEF0156DB48DE0BD040797;
+			settings = { ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); };
+		};
 		132885CAE30BE89244F44031 = {
 			isa = PBXBuildFile;
 			fileRef = A7B59DE6CF42C0685969A48C;
@@ -284,6 +289,13 @@
 			path = ../../Source/PluginProcessor.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		57CEF0156DB48DE0BD040797 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.dylib;
+			name = libsndfile.1.dylib;
+			path = /usr/local/lib/libsndfile.1.dylib;
+			sourceTree = "<group>";
+		};
 		599FA2F8D014D711AF1EFA53 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -326,25 +338,11 @@
 			path = "../../JuceLibraryCode/include_juce_audio_plugin_client_VST3.cpp";
 			sourceTree = "SOURCE_ROOT";
 		};
-		722C3A3A0D58F682A200FD44 = {
-			isa = PBXFileReference;
-			lastKnownFileType = file;
-			name = "juce_cryptography";
-			path = "/Users/joerg/developer/lib/JUCE/modules/juce_cryptography";
-			sourceTree = "<absolute>";
-		};
 		78DA558B411D938099C8A585 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.xml;
 			name = "Info-VST3.plist";
 			path = "Info-VST3.plist";
-			sourceTree = "SOURCE_ROOT";
-		};
-		913A9A40FCFF4BB75CB00640 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.objcpp;
-			name = "include_juce_cryptography.mm";
-			path = "../../JuceLibraryCode/include_juce_cryptography.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
 		97BE2A92982E38EA717AFA60 = {
@@ -375,6 +373,13 @@
 			path = libLinearPredictionCoder.a;
 			sourceTree = "BUILT_PRODUCTS_DIR";
 		};
+		722C3A3A0D58F682A200FD44 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_cryptography";
+			path = "/Users/joerg/developer/lib/JUCE/modules/juce_cryptography";
+			sourceTree = "<absolute>";
+		};
 		7719FAA5A5D9B7A609AB29DC = {
 			isa = PBXFileReference;
 			lastKnownFileType = file;
@@ -395,6 +400,13 @@
 			name = "juce_gui_basics";
 			path = "/Users/joerg/developer/lib/JUCE/modules/juce_gui_basics";
 			sourceTree = "<absolute>";
+		};
+		913A9A40FCFF4BB75CB00640 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = "include_juce_cryptography.mm";
+			path = "../../JuceLibraryCode/include_juce_cryptography.mm";
+			sourceTree = "SOURCE_ROOT";
 		};
 		96317D41C19162AACF5FFBA9 = {
 			isa = PBXFileReference;
@@ -695,6 +707,7 @@
 				049D2DB79355A70D0FB5AB18,
 				F142919EE05463B5A2393AC4,
 				DC46DC086F8816C025D615C2,
+				57CEF0156DB48DE0BD040797,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -780,6 +793,7 @@
 				INFOPLIST_FILE = Info-VST3.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST3/";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-bundle -lLinearPredictionCoder -L/usr/local/lib/ -lsoundpipe -lsndfile";
@@ -833,6 +847,7 @@
 				INFOPLIST_FILE = Info-VST3.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST3/";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -886,6 +901,7 @@
 				INFOPLIST_FILE = Info-AU.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-bundle -lLinearPredictionCoder -L/usr/local/lib/ -lsoundpipe -lsndfile";
@@ -940,6 +956,7 @@
 				INFOPLIST_FILE = Info-AU.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -1084,6 +1101,7 @@
 					"$(inherited)",
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-L/usr/local/lib/ -lsoundpipe -lsndfile";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jpiringer.LinearPredictionCoder;
@@ -1132,6 +1150,7 @@
 					"$(inherited)",
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-L/usr/local/lib/ -lsoundpipe -lsndfile";
@@ -1248,6 +1267,61 @@
 			isa = PBXTargetDependency;
 			target = 1842372233E6B27E1AA3C7CA;
 		};
+		235579B8EE768A1BE70E7C47 = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5485475245FE4288B81DA3C8,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Embed Frameworks";
+			dstPath = "";
+			dstSubfolderSpec = 10;
+		};
+		6120C3E44CD7852764EC2F80 = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5485475245FE4288B81DA3C8,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Embed Frameworks";
+			dstPath = "";
+			dstSubfolderSpec = 10;
+		};
+		765C6C6C1085DB483B6701DD = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5485475245FE4288B81DA3C8,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Embed Frameworks";
+			dstPath = "";
+			dstSubfolderSpec = 10;
+		};
+		B323CA0AD5A5D3502D9A4D6A = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5485475245FE4288B81DA3C8,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Embed Frameworks";
+			dstPath = "";
+			dstSubfolderSpec = 10;
+		};
+		023BB7ACF26483950D84F32E = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5485475245FE4288B81DA3C8,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Embed Frameworks";
+			dstPath = "";
+			dstSubfolderSpec = 10;
+		};
 		FB515D61E900D779B6258FB7 = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1269,7 +1343,9 @@
 		9FBD6E5E220D9D634C85B459 = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E937E9C1CEC1D49E4B8787A5;
-			buildPhases = ( );
+			buildPhases = (
+				235579B8EE768A1BE70E7C47,
+			);
 			buildRules = ( );
 			dependencies = (
 				8E27D7BF02E3B0463C9E50B6,
@@ -1320,6 +1396,7 @@
 				D64678433175D6EEB609B0B8,
 				3823459E37E3FDF27EC80124,
 				C35B7FC849CD09B8A3AAA3ED,
+				5485475245FE4288B81DA3C8,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1327,6 +1404,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BF4A20B1C184DF0ECC6B060;
 			buildPhases = (
+				6120C3E44CD7852764EC2F80,
 				B438BCEF22C9FF4C28362063,
 				732D72D106FB8E86C1D5ED5A,
 				9063F5E5D58A50693206B012,
@@ -1391,6 +1469,7 @@
 				D64678433175D6EEB609B0B8,
 				3823459E37E3FDF27EC80124,
 				C35B7FC849CD09B8A3AAA3ED,
+				5485475245FE4288B81DA3C8,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1398,6 +1477,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F23D27720AB60DCBA6ED46C2;
 			buildPhases = (
+				765C6C6C1085DB483B6701DD,
 				3E5E237F8FAD0E1A05D50511,
 				3111D3F968AD39FEBC27D1AF,
 				9C48B4CE0FD62AD830A78CCF,
@@ -1452,6 +1532,7 @@
 				D64678433175D6EEB609B0B8,
 				3823459E37E3FDF27EC80124,
 				C35B7FC849CD09B8A3AAA3ED,
+				5485475245FE4288B81DA3C8,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1459,6 +1540,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 036E760AD5F9F5BF2592E3B8;
 			buildPhases = (
+				B323CA0AD5A5D3502D9A4D6A,
 				7F91CC72A89E614364020346,
 				A7E23875299CEEFAB482B76D,
 				65457341203F86F14C21D04C,
@@ -1509,6 +1591,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACE06EB482E5A168BB1586E9;
 			buildPhases = (
+				023BB7ACF26483950D84F32E,
 				3AF4F47C852BCCF0D41D5E5B,
 			);
 			buildRules = ( );
