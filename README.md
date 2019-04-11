@@ -9,3 +9,7 @@ JUCE https://juce.com
 sndfile http://www.mega-nerd.com/libsndfile/
 
 soundpipe https://github.com/PaulBatchelor/Soundpipe
+
+
+
+download the binary builds here: https://joerg.piringer.net/LinearPredictionCoder
