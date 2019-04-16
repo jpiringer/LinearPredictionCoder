@@ -11,6 +11,8 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#define MAX_DELAY_LENGTH 10.0f
+
 //==============================================================================
 LinearPredictionCoderAudioProcessor::LinearPredictionCoderAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -31,27 +33,46 @@ LinearPredictionCoderAudioProcessor::LinearPredictionCoderAudioProcessor()
                                                          "Pitch Shift Semitones",            // parameter name
                                                          NormalisableRange<float>(-24.f,              // minimum value
                                                          24.f, 1.0f),              // maximum value
-                                                         0.f)             // default value
+                                                         0.f),             // default value
+                  std::make_unique<AudioParameterFloat> ("cents",            // parameterID
+                                                         "Pitch Shift Cents",            // parameter name
+                                                         NormalisableRange<float>(-100.0f,              // minimum value
+                                                                                  100.f, 1.f),              // maximum value
+                                                         0.f),             // default value
+                  std::make_unique<AudioParameterFloat> ("delayAmount",
+                                                         "Delay Amount",
+                                                         NormalisableRange<float>(0.f, 1.f, 0.001f),
+                                                         0.0f),
+                  std::make_unique<AudioParameterFloat> ("delayTime",
+                                                         "Delay Time",
+                                                         NormalisableRange<float>(0.001f, MAX_DELAY_LENGTH, 0.001f),
+                                                         0.1f)
               })
 {
     //addParameter (semitones = new AudioParameterFloat ("semitones", "Pitch Shift Semitones", -24, 24, 1));
-    semitones = parameters.getRawParameterValue ("semitones");
+    semitones = parameters.getRawParameterValue("semitones");
+    cents = parameters.getRawParameterValue("cents");
+    delayTime = parameters.getRawParameterValue("delayTime");
+    delayAmount = parameters.getRawParameterValue("delayAmount");
     
     sp_create(&sp);
     for (size_t i = 0; i < MAX_CHANNELS; i++) {
-        
         sp_pshift_create(&pshift[i]);
         sp_pshift_init(sp, pshift[i]);
         sp_lpc_create(&LPCSP[i]);
         sp_lpc_init(sp, LPCSP[i], 512);
+        sp_dynamic_delay_create(&delay[i]);
+        sp_dynamic_delay_init(sp, delay[i], MAX_DELAY_LENGTH);
+        delay[i]->feedback = 0;
+        zBuffer[i] = 0;
     }
 }
 
-LinearPredictionCoderAudioProcessor::~LinearPredictionCoderAudioProcessor()
-{
+LinearPredictionCoderAudioProcessor::~LinearPredictionCoderAudioProcessor() {
     for (size_t i = 0; i < MAX_CHANNELS; i++) {
         sp_pshift_destroy(&pshift[i]);
         sp_lpc_destroy(&LPCSP[i]);
+        sp_dynamic_delay_destroy(&delay[i]);
     }
     sp_destroy(&sp);
 }
@@ -168,10 +189,15 @@ void LinearPredictionCoderAudioProcessor::processBlock (AudioBuffer<float>& buff
         buffer.clear (i, 0, buffer.getNumSamples());
     }*/
     
-    if (*semitones != 0) {
+    bool doShift = *semitones != 0 || *cents != 0;
+
+    if (doShift) {
         for (size_t i = 0; i < MAX_CHANNELS; i++) {
-            *pshift[i]->shift = *semitones;
+            *pshift[i]->shift = *semitones+*cents/100.0f;
         }
+    }
+    for (size_t i = 0; i < MAX_CHANNELS; i++) {
+        sp_dynamic_delay_set_time(sp, delay[i], *delayTime);
     }
 
     // This is the place where you'd normally do the guts of your plugin's
@@ -185,7 +211,12 @@ void LinearPredictionCoderAudioProcessor::processBlock (AudioBuffer<float>& buff
         float *output = buffer.getWritePointer(channel);
         
         for (int i = 0; i < buffer.getNumSamples(); i++) {
-            if (*semitones != 0) {
+            float delayOutput;
+            if (*delayAmount > 0) {
+                sp_dynamic_delay_compute(sp, delay[channel], &zBuffer[channel], &delayOutput);
+                input[i] += delayOutput * *delayAmount;
+            }
+            if (doShift) {
                 float shifted;
                 sp_pshift_compute(sp, pshift[channel], &input[i], &shifted);
                 sp_lpc_compute(sp, LPCSP[channel], &shifted, &output[i]);
@@ -193,6 +224,7 @@ void LinearPredictionCoderAudioProcessor::processBlock (AudioBuffer<float>& buff
             else {
                 sp_lpc_compute(sp, LPCSP[channel], &input[i], &output[i]);
             }
+            zBuffer[channel] = output[i];
         }
     }
 }

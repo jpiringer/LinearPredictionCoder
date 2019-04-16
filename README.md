@@ -1,5 +1,7 @@
 # LinearPredictionCoder
-an au- &amp; vst-plugin that does linear prediction coding and pitch shifting. sounds crazy on voice.
+
+an au- &amp; vst-plugin that does linear prediction coding, pitch shifting and delay. 
+sounds crazy on voice.
 
 now for mac only but should be easy to compile for Windows as well.
 

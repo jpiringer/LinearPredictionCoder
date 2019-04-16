@@ -16,6 +16,8 @@ extern "C" {
 #include <soundpipe.h>
 }
 
+#include "dynamic_delay.hpp"
+
 #define MAX_CHANNELS 2
 
 //==============================================================================
@@ -26,9 +28,14 @@ class LinearPredictionCoderAudioProcessor  : public AudioProcessor
     sp_data *sp;
     sp_pshift *pshift[MAX_CHANNELS];
     sp_lpc *LPCSP[MAX_CHANNELS];
+    sp_dynamic_delay *delay[MAX_CHANNELS];
+    float zBuffer[MAX_CHANNELS];
     
     AudioProcessorValueTreeState parameters;
     float *semitones = nullptr;
+    float *cents = nullptr;
+    float *delayTime = nullptr;
+    float *delayAmount = nullptr;
     //AudioParameterFloat *semitones;
     
 public:
