@@ -32,10 +32,10 @@ class LinearPredictionCoderAudioProcessor  : public AudioProcessor
     float zBuffer[MAX_CHANNELS];
     
     AudioProcessorValueTreeState parameters;
-    float *semitones = nullptr;
-    float *cents = nullptr;
-    float *delayTime = nullptr;
-    float *delayAmount = nullptr;
+    std::atomic<float> *semitones = nullptr;
+    std::atomic<float>  *cents = nullptr;
+    std::atomic<float>  *delayTime = nullptr;
+    std::atomic<float>  *delayAmount = nullptr;
     //AudioParameterFloat *semitones;
     
 public:

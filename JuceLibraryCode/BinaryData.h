@@ -9,7 +9,7 @@
 namespace BinaryData
 {
     extern const char*   TODO_md;
-    const int            TODO_mdSize = 138;
+    const int            TODO_mdSize = 190;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 1;
